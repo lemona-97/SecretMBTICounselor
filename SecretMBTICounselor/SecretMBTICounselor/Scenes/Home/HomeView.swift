@@ -6,6 +6,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @AppStorage("hasShownDisclaimer") private var hasShownDisclaimer = false
+    @State private var showDisclaimer = false
     @State private var showSettings = false
     @State private var selectedMBTI: MBTIType?
 
@@ -46,6 +48,25 @@ struct HomeView: View {
             .sheet(isPresented: $showSettings) { SettingsView() }
             .navigationDestination(item: $selectedMBTI) { mbti in
                 ChatListView(mbti: mbti)
+            }
+            .onAppear {
+                if !hasShownDisclaimer {
+                    // 약간의 딜레이로 홈 화면이 먼저 보인 뒤 팝업 등장
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                        withAnimation(.spring(duration: 0.3)) {
+                            showDisclaimer = true
+                        }
+                    }
+                }
+            }
+            .onChange(of: showDisclaimer) { _, newValue in
+                if !newValue { hasShownDisclaimer = true }
+            }
+            .overlay {
+                if showDisclaimer {
+                    DisclaimerView(isPresented: $showDisclaimer)
+                        .zIndex(999)
+                }
             }
         }
     }

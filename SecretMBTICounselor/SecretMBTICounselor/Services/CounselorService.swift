@@ -54,14 +54,14 @@ final class CounselorService {
         guard !didInjectHistory, !priorHistory.isEmpty else { return userText }
         didInjectHistory = true
         let recent = priorHistory.suffix(12).map { m in
-            let who = m.role == .user ? "사용자" : mbti.nickname
+            let who = m.role == .user ? "User" : mbti.nickname
             return "\(who): \(m.content)"
         }.joined(separator: "\n")
         return """
-        [이전 대화 요약 — 참고만 하고 언급하지 마세요]
+        [Previous conversation — use for context only, do not mention it explicitly]
         \(recent)
 
-        [현재 사용자 메시지]
+        [Current user message]
         \(userText)
         """
     }
