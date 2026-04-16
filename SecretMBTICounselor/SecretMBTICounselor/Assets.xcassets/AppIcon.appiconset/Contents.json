@@ -1,28 +1,7 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "tinted"
-        }
-      ],
+      "filename" : "app_icon_for_secret_mbti_counselor._a_cute_3d_rendered_mascot_a_small_glowing_spark_or_star_character_with_a_friendly_expression_sitting_inside_a_cozy_translucent_purple_glass_orb._this_represents_the_secret_and_ai_counselor_aspect._soft_li.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
