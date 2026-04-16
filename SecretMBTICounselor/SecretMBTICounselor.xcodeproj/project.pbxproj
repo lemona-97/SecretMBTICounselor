@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FA8E7F042F90825C000CB3D6 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FA8E7F032F90825C000CB3D6 /* GoogleMobileAds */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FA8E7D0F2F8DDB7A000CB3D6 /* SecretMBTICounselor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SecretMBTICounselor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FA8E7FB42F908284000CB3D6 /* Exceptions for "SecretMBTICounselor" folder in "SecretMBTICounselor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FA8E7D0E2F8DDB7A000CB3D6 /* SecretMBTICounselor */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FA8E7D112F8DDB7A000CB3D6 /* SecretMBTICounselor */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FA8E7FB42F908284000CB3D6 /* Exceptions for "SecretMBTICounselor" folder in "SecretMBTICounselor" target */,
+			);
 			path = SecretMBTICounselor;
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA8E7F042F90825C000CB3D6 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +83,7 @@
 			);
 			name = SecretMBTICounselor;
 			packageProductDependencies = (
+				FA8E7F032F90825C000CB3D6 /* GoogleMobileAds */,
 			);
 			productName = SecretMBTICounselor;
 			productReference = FA8E7D0F2F8DDB7A000CB3D6 /* SecretMBTICounselor.app */;
@@ -94,6 +113,9 @@
 			);
 			mainGroup = FA8E7D062F8DDB7A000CB3D6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FA8E7F022F90825C000CB3D6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FA8E7D102F8DDB7A000CB3D6 /* Products */;
 			projectDirPath = "";
@@ -256,11 +278,15 @@
 				DEVELOPMENT_TEAM = WJVGRM2SN6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SecretMBTICounselor/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -288,11 +314,15 @@
 				DEVELOPMENT_TEAM = WJVGRM2SN6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SecretMBTICounselor/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,6 +362,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA8E7F022F90825C000CB3D6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA8E7F032F90825C000CB3D6 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA8E7F022F90825C000CB3D6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA8E7D072F8DDB7A000CB3D6 /* Project object */;
 }
