@@ -22,12 +22,12 @@ final class ChatViewModel {
 
     private var streamTask: Task<Void, Never>?
 
-    init(session: ChatSession, modelContext: ModelContext, knownTerms: [UserTerm] = [], defaultMode: InteractionMode = .chat) {
+    init(session: ChatSession, modelContext: ModelContext, knownTerms: [UserTerm] = [], notionTerms: [NotionTerm] = [], defaultMode: InteractionMode = .chat) {
         self.session = session
         self.modelContext = modelContext
         self.mode = defaultMode
         self.speech = SpeechService()
-        self.counselor = CounselorService(mbti: session.mbti, history: session.messages, knownTerms: knownTerms)
+        self.counselor = CounselorService(mbti: session.mbti, history: session.messages, knownTerms: knownTerms, notionTerms: notionTerms)
     }
 
     var mbti: MBTIType { session.mbti }

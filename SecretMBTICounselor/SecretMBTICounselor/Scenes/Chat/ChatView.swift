@@ -8,6 +8,7 @@ import SwiftData
 
 struct ChatView: View {
     let session: ChatSession
+    var notionTerms: [NotionTerm] = []
 
     @Environment(\.modelContext) private var modelContext
     @AppStorage("defaultInteractionMode") private var defaultModeRaw: String = InteractionMode.chat.rawValue
@@ -87,7 +88,7 @@ struct ChatView: View {
         .onAppear {
             if viewModel == nil {
                 let mode = InteractionMode(rawValue: defaultModeRaw) ?? .chat
-                viewModel = ChatViewModel(session: session, modelContext: modelContext, knownTerms: knownTerms, defaultMode: mode)
+                viewModel = ChatViewModel(session: session, modelContext: modelContext, knownTerms: knownTerms, notionTerms: notionTerms, defaultMode: mode)
                 Task { await viewModel?.speech.requestPermissions() }
             }
         }

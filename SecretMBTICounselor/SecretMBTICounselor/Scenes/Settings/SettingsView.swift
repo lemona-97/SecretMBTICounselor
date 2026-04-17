@@ -11,6 +11,17 @@ struct SettingsView: View {
     @AppStorage("autoPlayTTS") private var autoPlayTTS: Bool = true
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
 
+    @AppStorage("notionLastFetchDate") private var notionLastFetchTimestamp: Double = 0
+
+    private var lastFetchLabel: String {
+        guard notionLastFetchTimestamp > 0 else { return "아직 없음" }
+        let date = Date(timeIntervalSince1970: notionLastFetchTimestamp)
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter.string(from: date)
+    }
+
     private var isVoiceDefault: Binding<Bool> {
         Binding(
             get: { defaultModeRaw == InteractionMode.voice.rawValue },
@@ -50,6 +61,13 @@ struct SettingsView: View {
                             Label("AI 모델", systemImage: "sparkles")
                             Spacer()
                             Text("On-Device Foundation")
+                                .font(.system(size: 13, design: .rounded))
+                                .foregroundStyle(AppTheme.textSecondary)
+                        }
+                        HStack {
+                            Label("신조어 업데이트", systemImage: "text.book.closed.fill")
+                            Spacer()
+                            Text(lastFetchLabel)
                                 .font(.system(size: 13, design: .rounded))
                                 .foregroundStyle(AppTheme.textSecondary)
                         }

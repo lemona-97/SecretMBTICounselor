@@ -9,13 +9,11 @@ import GoogleMobileAds
 
 @main
 struct SecretMBTICounselorApp: App {
+    @State private var notionTerms: [NotionTerm] = []
+
     init() {
         // AdMob SDK 초기화 (앱 시작 시 단 한 번)
         MobileAds.shared.start(completionHandler: nil)
-
-        // 시뮬레이터는 SDK가 자동으로 테스트 광고를 표시함.
-        // 실기기에서 테스트하려면 Xcode 콘솔에 출력되는 기기 ID를 아래에 추가:
-        // MobileAds.shared.requestConfiguration.testDeviceIdentifiers = ["YOUR_DEVICE_ID"]
     }
 
     let sharedModelContainer: ModelContainer = {
@@ -30,9 +28,16 @@ struct SecretMBTICounselorApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(notionTerms: notionTerms)
                 .tint(AppTheme.textPrimary)
                 .preferredColorScheme(.light)
+                .task {
+                    // 하루 1회만 Notion에서 신조어 fetch
+                    if let terms = try? await NotionService.shared.fetchTermsIfNeeded(),
+                       !terms.isEmpty {
+                        notionTerms = terms
+                    }
+                }
         }
         .modelContainer(sharedModelContainer)
     }

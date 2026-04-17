@@ -17,23 +17,37 @@ final class CounselorService {
     private var didInjectHistory = false
     private let priorHistory: [ChatMessage]
 
-    init(mbti: MBTIType, history: [ChatMessage] = [], knownTerms: [UserTerm] = []) {
+    init(mbti: MBTIType, history: [ChatMessage] = [], knownTerms: [UserTerm] = [], notionTerms: [NotionTerm] = []) {
         self.mbti = mbti
         self.priorHistory = history.sorted { $0.createdAt < $1.createdAt }
-        let instructions = Self.buildInstructions(mbti: mbti, knownTerms: knownTerms)
+        let instructions = Self.buildInstructions(mbti: mbti, knownTerms: knownTerms, notionTerms: notionTerms)
         self.session = LanguageModelSession(instructions: instructions)
     }
 
-    private static func buildInstructions(mbti: MBTIType, knownTerms: [UserTerm]) -> String {
+    private static func buildInstructions(mbti: MBTIType, knownTerms: [UserTerm], notionTerms: [NotionTerm]) -> String {
         var base = mbti.systemInstructions
+
+        // Notion DB에서 가져온 신조어
+        if !notionTerms.isEmpty {
+            let lines = notionTerms.map { $0.instructionLine }.joined(separator: "\n")
+            base += """
+
+            [Background vocabulary — for your understanding only]
+            The following slang and terms may appear in conversation. Use this as silent background knowledge to understand what the user means. Do NOT mention, explain, or reference these definitions in your responses. Simply understand and respond naturally.
+            \(lines)
+            """
+        }
+
+        // 유저가 대화 중 알려준 단어
         if !knownTerms.isEmpty {
-            let termList = knownTerms.map { "- \($0.word): \($0.definition)" }.joined(separator: "\n")
+            let lines = knownTerms.map { "- \($0.word): \($0.definition)" }.joined(separator: "\n")
             base += """
 
             [User-defined terms — use these meanings exactly when these words appear]
-            \(termList)
+            \(lines)
             """
         }
+
         return base
     }
 

@@ -6,6 +6,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    let notionTerms: [NotionTerm]
+
     @AppStorage("hasShownDisclaimer") private var hasShownDisclaimer = false
     @State private var showDisclaimer = false
     @State private var showSettings = false
@@ -47,7 +49,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
             .navigationDestination(item: $selectedMBTI) { mbti in
-                ChatListView(mbti: mbti)
+                ChatListView(mbti: mbti, notionTerms: notionTerms)
             }
             .onAppear {
                 if !hasShownDisclaimer {
