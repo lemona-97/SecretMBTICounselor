@@ -17,10 +17,24 @@ final class CounselorService {
     private var didInjectHistory = false
     private let priorHistory: [ChatMessage]
 
-    init(mbti: MBTIType, history: [ChatMessage] = []) {
+    init(mbti: MBTIType, history: [ChatMessage] = [], knownTerms: [UserTerm] = []) {
         self.mbti = mbti
         self.priorHistory = history.sorted { $0.createdAt < $1.createdAt }
-        self.session = LanguageModelSession(instructions: mbti.systemInstructions)
+        let instructions = Self.buildInstructions(mbti: mbti, knownTerms: knownTerms)
+        self.session = LanguageModelSession(instructions: instructions)
+    }
+
+    private static func buildInstructions(mbti: MBTIType, knownTerms: [UserTerm]) -> String {
+        var base = mbti.systemInstructions
+        if !knownTerms.isEmpty {
+            let termList = knownTerms.map { "- \($0.word): \($0.definition)" }.joined(separator: "\n")
+            base += """
+
+            [User-defined terms — use these meanings exactly when these words appear]
+            \(termList)
+            """
+        }
+        return base
     }
 
     /// 단발 응답

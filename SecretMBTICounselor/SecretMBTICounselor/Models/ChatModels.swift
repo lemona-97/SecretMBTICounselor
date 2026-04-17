@@ -31,6 +31,22 @@ final class ChatSession {
     }
 }
 
+/// 유저가 대화 중 알려준 신조어/단어를 앱 전체에서 공유 저장
+@Model
+final class UserTerm {
+    var id: UUID
+    var word: String
+    var definition: String
+    var createdAt: Date
+
+    init(word: String, definition: String) {
+        self.id = UUID()
+        self.word = word
+        self.definition = definition
+        self.createdAt = .now
+    }
+}
+
 enum ChatRole: String, Codable, Sendable {
     case user, assistant
 }

@@ -19,7 +19,7 @@ struct SecretMBTICounselorApp: App {
     }
 
     let sharedModelContainer: ModelContainer = {
-        let schema = Schema([ChatSession.self, ChatMessage.self])
+        let schema = Schema([ChatSession.self, ChatMessage.self, UserTerm.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, configurations: [config])

@@ -279,6 +279,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SecretMBTICounselor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "MBTI상담사";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -315,6 +317,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SecretMBTICounselor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "MBTI상담사";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

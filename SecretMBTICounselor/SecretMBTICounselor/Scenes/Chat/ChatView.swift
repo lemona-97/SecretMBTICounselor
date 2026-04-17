@@ -13,6 +13,7 @@ struct ChatView: View {
     @AppStorage("defaultInteractionMode") private var defaultModeRaw: String = InteractionMode.chat.rawValue
     @AppStorage("autoPlayTTS") private var autoPlayTTS: Bool = true
 
+    @Query private var knownTerms: [UserTerm]
     @State private var viewModel: ChatViewModel?
 
     var body: some View {
@@ -86,18 +87,10 @@ struct ChatView: View {
         .onAppear {
             if viewModel == nil {
                 let mode = InteractionMode(rawValue: defaultModeRaw) ?? .chat
-                viewModel = ChatViewModel(session: session, modelContext: modelContext, defaultMode: mode)
+                viewModel = ChatViewModel(session: session, modelContext: modelContext, knownTerms: knownTerms, defaultMode: mode)
                 Task { await viewModel?.speech.requestPermissions() }
             }
         }
         .onDisappear { viewModel?.cleanup() }
-        .alert("오류", isPresented: Binding(
-            get: { viewModel?.errorMessage != nil },
-            set: { if !$0 { viewModel?.errorMessage = nil } }
-        )) {
-            Button("확인", role: .cancel) { viewModel?.errorMessage = nil }
-        } message: {
-            Text(viewModel?.errorMessage ?? "")
-        }
     }
 }
