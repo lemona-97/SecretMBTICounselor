@@ -22,13 +22,11 @@ struct DisclaimerView: View {
             VStack(spacing: 0) {
                 // 상단 아이콘 + 타이틀
                 VStack(spacing: 12) {
-                    ZStack {
-                        Circle()
-                            .fill(AppTheme.bubbleAssistant)
-                            .frame(width: 64, height: 64)
-                        Text("🧠")
-                            .font(.system(size: 30))
-                    }
+                    Image("mascot")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .clipShape(.circle)
 
                     Text("상담을 시작하기 전에")
                         .font(.system(size: 20, weight: .bold, design: .rounded))

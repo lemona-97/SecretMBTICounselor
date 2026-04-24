@@ -12,6 +12,7 @@ struct HomeView: View {
     @State private var showDisclaimer = false
     @State private var showSettings = false
     @State private var selectedMBTI: MBTIType?
+    @State private var favorites = FavoritesStore.shared
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
 
@@ -23,14 +24,14 @@ struct HomeView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 20) {
                             header
-                            grid
+                            bestiesSection
+                            othersSection
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 32)
                     }
                 }
 
-                // 하단 배너 광고 (스크롤과 무관하게 항상 고정)
                 HomeBannerAdContainer()
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -53,7 +54,6 @@ struct HomeView: View {
             }
             .onAppear {
                 if !hasShownDisclaimer {
-                    // 약간의 딜레이로 홈 화면이 먼저 보인 뒤 팝업 등장
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                         withAnimation(.spring(duration: 0.3)) {
                             showDisclaimer = true
@@ -73,13 +73,17 @@ struct HomeView: View {
         }
     }
 
+    // MARK: - Header
+
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("오늘은 누구에게\n마음을 털어놓을까요?")
                 .font(.system(size: 26, weight: .bold, design: .rounded))
                 .foregroundStyle(AppTheme.textPrimary)
                 .lineSpacing(4)
-            Text("16명의 상담사가 기다리고 있어요")
+            Text(favorites.hasAnyBestie
+                 ? "단짝 상담사와 먼저 이야기해보세요"
+                 : "카드를 길게 눌러 위로 끌어올리면 단짝이 돼요")
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundStyle(AppTheme.textSecondary)
         }
@@ -87,14 +91,124 @@ struct HomeView: View {
         .padding(.top, 4)
     }
 
-    private var grid: some View {
+    // MARK: - Sections
+
+    private var bestiesSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            sectionHeader(
+                icon: "heart.fill",
+                iconColor: Color(hex: "FF8FA3"),
+                title: "단짝 상담사",
+                subtitle: favorites.besties.isEmpty ? "여기에 끌어다 놓으세요" : nil
+            )
+
+            if favorites.besties.isEmpty {
+                emptyBestiesDropZone
+            } else {
+                grid(for: favorites.besties, inBesties: true)
+            }
+        }
+    }
+
+    private var othersSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            sectionHeader(
+                icon: "person.2.fill",
+                iconColor: AppTheme.textSecondary,
+                title: "다른 상담사",
+                subtitle: nil
+            )
+
+            grid(for: favorites.others, inBesties: false)
+        }
+    }
+
+    private func sectionHeader(icon: String, iconColor: Color, title: String, subtitle: String?) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon).foregroundStyle(iconColor)
+            Text(title)
+                .font(.system(size: 15, weight: .semibold, design: .rounded))
+                .foregroundStyle(AppTheme.textPrimary)
+            if let subtitle {
+                Text(subtitle)
+                    .font(.system(size: 12, design: .rounded))
+                    .foregroundStyle(AppTheme.textSecondary)
+            }
+            Spacer()
+        }
+    }
+
+    private var emptyBestiesDropZone: some View {
+        HStack {
+            Spacer()
+            VStack(spacing: 6) {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 18))
+                    .foregroundStyle(AppTheme.textSecondary)
+                Text("아직 비어있어요")
+                    .font(.system(size: 13, design: .rounded))
+                    .foregroundStyle(AppTheme.textSecondary)
+            }
+            Spacer()
+        }
+        .frame(height: 88)
+        .background(
+            RoundedRectangle(cornerRadius: AppTheme.cornerMedium)
+                .strokeBorder(AppTheme.textSecondary.opacity(0.25), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
+        )
+        .dropDestination(for: String.self) { items, _ in
+            guard let raw = items.first, let mbti = MBTIType(rawValue: raw) else { return false }
+            withAnimation(.easeInOut(duration: 0.2)) {
+                favorites.appendToBesties(mbti)
+            }
+            return true
+        }
+    }
+
+    // MARK: - Grid
+
+    private func grid(for types: [MBTIType], inBesties: Bool) -> some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(MBTIType.allCases) { type in
+            ForEach(types) { type in
                 Button { selectedMBTI = type } label: {
                     MBTICardView(type: type)
+                        .overlay(alignment: .topTrailing) {
+                            if inBesties {
+                                Image(systemName: "heart.fill")
+                                    .font(.system(size: 10))
+                                    .foregroundStyle(Color(hex: "FF8FA3"))
+                                    .padding(6)
+                            }
+                        }
                 }
                 .buttonStyle(.plain)
+                .draggable(type.rawValue)
+                .dropDestination(for: String.self) { items, _ in
+                    guard let raw = items.first,
+                          let dropped = MBTIType(rawValue: raw),
+                          dropped != type else { return false }
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        if inBesties {
+                            favorites.move(dropped, toBestiesBefore: type)
+                        } else {
+                            favorites.move(dropped, toOthersBefore: type)
+                        }
+                    }
+                    return true
+                }
             }
+        }
+        .dropDestination(for: String.self) { items, _ in
+            // 카드 사이가 아닌 섹션 빈 공간에 드롭 시 섹션 끝으로
+            guard let raw = items.first, let mbti = MBTIType(rawValue: raw) else { return false }
+            withAnimation(.easeInOut(duration: 0.2)) {
+                if inBesties {
+                    favorites.appendToBesties(mbti)
+                } else {
+                    favorites.appendToOthers(mbti)
+                }
+            }
+            return true
         }
     }
 }

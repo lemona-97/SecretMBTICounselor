@@ -9,6 +9,7 @@ import GoogleMobileAds
 
 @main
 struct SecretMBTICounselorApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     @State private var notionTerms: [NotionTerm] = []
 
     init() {
@@ -37,6 +38,12 @@ struct SecretMBTICounselorApp: App {
                        !terms.isEmpty {
                         notionTerms = terms
                     }
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    guard phase == .active else { return }
+                    let context = sharedModelContainer.mainContext
+                    let last = NotificationService.shared.lastUsedMBTI(context: context)
+                    Task { await NotificationService.shared.rescheduleAll(lastUsedMBTI: last) }
                 }
         }
         .modelContainer(sharedModelContainer)
