@@ -182,7 +182,12 @@ struct HomeView: View {
                         }
                 }
                 .buttonStyle(.plain)
-                .draggable(type.rawValue)
+                .contentShape(.dragPreview, RoundedRectangle(cornerRadius: AppTheme.cornerLarge, style: .continuous))
+                .draggable(type.rawValue) {
+                    MBTICardView(type: type)
+                        .frame(width: 76, height: 76)
+                        .contentShape(.dragPreview, RoundedRectangle(cornerRadius: AppTheme.cornerLarge, style: .continuous))
+                }
                 .dropDestination(for: String.self) { items, _ in
                     guard let raw = items.first,
                           let dropped = MBTIType(rawValue: raw),
