@@ -13,23 +13,37 @@ import FoundationModels
 @Observable
 final class CounselorService {
     let mbti: MBTIType
-    private var session: LanguageModelSession
+    private var _session: LanguageModelSession?
+    private let instructions: String
     private var didInjectHistory = false
     private let priorHistory: [ChatMessage]
 
     init(mbti: MBTIType, history: [ChatMessage] = [], knownTerms: [UserTerm] = [], notionTerms: [NotionTerm] = []) {
         self.mbti = mbti
         self.priorHistory = history.sorted { $0.createdAt < $1.createdAt }
-        let instructions = Self.buildInstructions(mbti: mbti, knownTerms: knownTerms, notionTerms: notionTerms)
-        self.session = LanguageModelSession(instructions: instructions)
+        self.instructions = Self.buildInstructions(mbti: mbti, knownTerms: knownTerms, notionTerms: notionTerms)
+    }
+
+    private var session: LanguageModelSession {
+        if let s = _session { return s }
+        let s = LanguageModelSession(instructions: instructions)
+        _session = s
+        return s
+    }
+
+    /// 메모리 해제 — ChatView dismiss 시 호출
+    func releaseSession() {
+        _session = nil
+        didInjectHistory = false
     }
 
     private static func buildInstructions(mbti: MBTIType, knownTerms: [UserTerm], notionTerms: [NotionTerm]) -> String {
         var base = mbti.systemInstructions
 
-        // Notion DB에서 가져온 신조어
+        // Notion DB에서 가져온 신조어 — 컨텍스트 폭주 방지를 위해 상한
         if !notionTerms.isEmpty {
-            let lines = notionTerms.map { $0.instructionLine }.joined(separator: "\n")
+            let capped = Array(notionTerms.prefix(120))
+            let lines = capped.map { $0.instructionLine }.joined(separator: "\n")
             base += """
 
             [Background vocabulary — for your understanding only]

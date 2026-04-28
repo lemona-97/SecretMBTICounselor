@@ -283,6 +283,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "맞춤형 광고를 위해 추적이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -321,6 +322,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "맞춤형 광고를 위해 추적이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

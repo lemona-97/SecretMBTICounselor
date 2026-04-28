@@ -29,9 +29,10 @@ struct SecretMBTICounselorApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView(notionTerms: notionTerms)
+            HomeView()
                 .tint(AppTheme.textPrimary)
                 .preferredColorScheme(.light)
+                .environment(\.notionTerms, notionTerms)
                 .task {
                     // 하루 1회만 Notion에서 신조어 fetch
                     if let terms = try? await NotionService.shared.fetchTermsIfNeeded(),

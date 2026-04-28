@@ -8,16 +8,15 @@ import SwiftData
 
 struct ChatListView: View {
     let mbti: MBTIType
-    let notionTerms: [NotionTerm]
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.notionTerms) private var notionTerms
     @Query private var sessions: [ChatSession]
     @State private var viewModel: ChatListViewModel?
     @State private var pushedSession: ChatSession?
 
-    init(mbti: MBTIType, notionTerms: [NotionTerm] = []) {
+    init(mbti: MBTIType) {
         self.mbti = mbti
-        self.notionTerms = notionTerms
         let raw = mbti.rawValue
         let predicate = #Predicate<ChatSession> { $0.mbtiRaw == raw }
         _sessions = Query(filter: predicate, sort: [SortDescriptor(\ChatSession.updatedAt, order: .reverse)])
@@ -100,7 +99,7 @@ struct ChatListView: View {
             }
         }
         .navigationDestination(item: $pushedSession) { session in
-            ChatView(session: session, notionTerms: notionTerms)
+            ChatView(session: session)
         }
         .alert("대화 이름 변경", isPresented: Binding(
             get: { viewModel?.renameTarget != nil },

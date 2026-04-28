@@ -18,8 +18,8 @@ struct SessionRowView: View {
                     .font(.system(size: 15, weight: .semibold, design: .rounded))
                     .foregroundStyle(AppTheme.textPrimary)
                     .lineLimit(1)
-                if let attributedPreview = try? AttributedString(markdown: session.preview) {
-                    Text(attributedPreview)
+                if let attributed = try? AttributedString(markdown: session.preview) {
+                    Text(attributed)
                         .font(.system(size: 12, design: .rounded))
                         .foregroundStyle(AppTheme.textSecondary)
                         .lineLimit(1)

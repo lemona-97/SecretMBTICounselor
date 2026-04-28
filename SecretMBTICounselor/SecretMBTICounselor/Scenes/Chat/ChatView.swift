@@ -8,9 +8,9 @@ import SwiftData
 
 struct ChatView: View {
     let session: ChatSession
-    var notionTerms: [NotionTerm] = []
 
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.notionTerms) private var notionTerms
     @AppStorage("defaultInteractionMode") private var defaultModeRaw: String = InteractionMode.chat.rawValue
     @AppStorage("autoPlayTTS") private var autoPlayTTS: Bool = true
 
@@ -89,7 +89,9 @@ struct ChatView: View {
             if viewModel == nil {
                 let mode = InteractionMode(rawValue: defaultModeRaw) ?? .chat
                 viewModel = ChatViewModel(session: session, modelContext: modelContext, knownTerms: knownTerms, notionTerms: notionTerms, defaultMode: mode)
-                Task { await viewModel?.speech.requestPermissions() }
+                if mode == .voice {
+                    Task { await viewModel?.speech.requestPermissions() }
+                }
             }
         }
         .onDisappear { viewModel?.cleanup() }

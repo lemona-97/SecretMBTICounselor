@@ -23,8 +23,8 @@ struct MessageBubbleView: View {
             }
 
             VStack(alignment: .leading, spacing: 0) {
-                if let attributedContent = try? AttributedString(markdown: message.content) {
-                    Text(attributedContent)
+                if let attributed = try? AttributedString(markdown: message.content) {
+                    Text(attributed)
                         .font(.system(size: 15, design: .rounded))
                         .foregroundStyle(AppTheme.textPrimary)
                 } else {

@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct NotionTerm {
+struct NotionTerm: Equatable, Hashable {
     let abbreviation: String?   // 줄임말 (optional)
     let original: String        // 원어
     let description: String?    // 설명 (optional)
@@ -22,6 +23,16 @@ struct NotionTerm {
             parts.append("(\(desc))")
         }
         return "- " + parts.joined(separator: " = ")
+    }
+}
+
+private struct NotionTermsKey: EnvironmentKey {
+    static let defaultValue: [NotionTerm] = []
+}
+extension EnvironmentValues {
+    var notionTerms: [NotionTerm] {
+        get { self[NotionTermsKey.self] }
+        set { self[NotionTermsKey.self] = newValue }
     }
 }
 
@@ -64,7 +75,8 @@ final class NotionService {
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         let results = json?["results"] as? [[String: Any]] ?? []
 
-        return results.compactMap { page -> NotionTerm? in
+        print("[Notion] 총 \(results.count)개 페이지 응답")
+        let terms = results.compactMap { page -> NotionTerm? in
             guard let props = page["properties"] as? [String: Any] else { return nil }
 
             // 원어 (필수)
@@ -88,6 +100,9 @@ final class NotionService {
 
             return NotionTerm(abbreviation: abbreviation, original: original, description: description)
         }
+        print("[Notion] 파싱된 NotionTerm: \(terms.count)개")
+        if let first = terms.first { print("[Notion] 첫 항목: \(first.instructionLine)") }
+        return terms
     }
 
     // MARK: - Helpers

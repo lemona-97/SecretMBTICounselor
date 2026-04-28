@@ -25,7 +25,6 @@ final class ChatListViewModel {
     func createSession() -> ChatSession {
         let s = ChatSession(mbti: mbti)
         modelContext.insert(s)
-        try? modelContext.save()
         return s
     }
 

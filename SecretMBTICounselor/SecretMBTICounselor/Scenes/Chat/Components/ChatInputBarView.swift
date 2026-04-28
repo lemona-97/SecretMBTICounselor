@@ -15,7 +15,8 @@ struct ChatInputBarView: View {
         HStack(alignment: .bottom, spacing: 8) {
             TextField("마음을 털어놓아 보세요", text: $text, axis: .vertical)
                 .font(.system(size: 15, design: .rounded))
-                .lineLimit(1...5)
+                .lineLimit(5, reservesSpace: false)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 10)
                 .background(

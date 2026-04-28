@@ -189,5 +189,6 @@ final class ChatViewModel {
         streamTask?.cancel()
         speech.stopRecording()
         speech.stopSpeaking()
+        counselor.releaseSession()
     }
 }

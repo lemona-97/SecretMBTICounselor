@@ -19,16 +19,19 @@ final class SpeechService: NSObject {
     var transcript: String = ""
     var lastError: String?
 
-    private let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "ko-KR"))
-    private let audioEngine = AVAudioEngine()
-    private var request: SFSpeechAudioBufferRecognitionRequest?
-    private var recognitionTask: SFSpeechRecognitionTask?
+    @ObservationIgnored private lazy var recognizer = SFSpeechRecognizer(locale: Locale(identifier: "ko-KR"))
+    @ObservationIgnored private lazy var audioEngine = AVAudioEngine()
+    @ObservationIgnored private var request: SFSpeechAudioBufferRecognitionRequest?
+    @ObservationIgnored private var recognitionTask: SFSpeechRecognitionTask?
 
-    private let synthesizer = AVSpeechSynthesizer()
+    @ObservationIgnored private lazy var synthesizer: AVSpeechSynthesizer = {
+        let s = AVSpeechSynthesizer()
+        s.delegate = self
+        return s
+    }()
 
     override init() {
         super.init()
-        synthesizer.delegate = self
     }
 
     // MARK: - Permissions
@@ -91,7 +94,7 @@ final class SpeechService: NSObject {
     }
 
     func stopRecording() {
-        guard isRecording || audioEngine.isRunning else { return }
+        guard isRecording else { return }
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         request?.endAudio()
@@ -126,6 +129,7 @@ final class SpeechService: NSObject {
     }
 
     func stopSpeaking() {
+        guard isSpeaking else { return }
         if synthesizer.isSpeaking || synthesizer.isPaused {
             synthesizer.stopSpeaking(at: .immediate)
         }
