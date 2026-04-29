@@ -280,7 +280,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SecretMBTICounselor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "MBTI상담사";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "맞춤형 광고를 위해 추적이 필요합니다.";
@@ -290,6 +290,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -319,7 +320,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SecretMBTICounselor/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "MBTI상담사";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "상담을 음성으로 나눌 수 있도록 마이크를 사용해요.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "말씀하신 내용을 텍스트로 옮겨 상담사에게 전달해요.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "맞춤형 광고를 위해 추적이 필요합니다.";
@@ -329,6 +330,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

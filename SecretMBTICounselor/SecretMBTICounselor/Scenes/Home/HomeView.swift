@@ -9,7 +9,10 @@ struct HomeView: View {
     @Environment(\.notionTerms) private var notionTerms
 
     @AppStorage("hasShownDisclaimer") private var hasShownDisclaimer = false
+    @AppStorage("hasShownUnsupportedAlert") private var hasShownUnsupportedAlert = false
     @State private var showDisclaimer = false
+    @State private var showUnsupported = false
+    @State private var unsupportedStatus: AIAvailability.Status = .unknown
     @State private var showSettings = false
     @State private var selectedMBTI: MBTIType?
     @State private var favorites = FavoritesStore.shared
@@ -32,7 +35,7 @@ struct HomeView: View {
                     }
                 }
 
-                HomeBannerAdContainer()
+//                HomeBannerAdContainer()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -59,16 +62,41 @@ struct HomeView: View {
                             showDisclaimer = true
                         }
                     }
+                } else {
+                    checkAIAvailabilityIfNeeded()
                 }
             }
             .onChange(of: showDisclaimer) { _, newValue in
-                if !newValue { hasShownDisclaimer = true }
+                if !newValue {
+                    hasShownDisclaimer = true
+                    checkAIAvailabilityIfNeeded()
+                }
+            }
+            .onChange(of: showUnsupported) { _, newValue in
+                if !newValue { hasShownUnsupportedAlert = true }
             }
             .overlay {
                 if showDisclaimer {
                     DisclaimerView(isPresented: $showDisclaimer)
                         .zIndex(999)
+                } else if showUnsupported {
+                    UnsupportedDeviceView(status: unsupportedStatus, isPresented: $showUnsupported)
+                        .zIndex(999)
                 }
+            }
+        }
+    }
+
+    // MARK: - AI 가용성 체크
+
+    private func checkAIAvailabilityIfNeeded() {
+        guard !hasShownUnsupportedAlert else { return }
+        let status = AIAvailability.status
+        guard status != .available else { return }
+        unsupportedStatus = status
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            withAnimation(.spring(duration: 0.3)) {
+                showUnsupported = true
             }
         }
     }
