@@ -35,7 +35,7 @@ struct HomeView: View {
                     }
                 }
 
-//                HomeBannerAdContainer()
+                HomeBannerAdContainer()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
