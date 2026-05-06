@@ -6,16 +6,12 @@
 import SwiftUI
 import SwiftData
 import GoogleMobileAds
+import AppTrackingTransparency
 
 @main
 struct SecretMBTICounselorApp: App {
     @Environment(\.scenePhase) private var scenePhase
     @State private var notionTerms: [NotionTerm] = []
-
-    init() {
-        // AdMob SDK 초기화 (앱 시작 시 단 한 번)
-        MobileAds.shared.start(completionHandler: nil)
-    }
 
     let sharedModelContainer: ModelContainer = {
         let schema = Schema([ChatSession.self, ChatMessage.self, UserTerm.self])
@@ -34,11 +30,14 @@ struct SecretMBTICounselorApp: App {
                 .preferredColorScheme(.light)
                 .environment(\.notionTerms, notionTerms)
                 .task {
-                    // 하루 1회만 Notion에서 신조어 fetch
                     if let terms = try? await NotionService.shared.fetchTermsIfNeeded(),
                        !terms.isEmpty {
                         notionTerms = terms
                     }
+                }
+                .task {
+                    try? await Task.sleep(for: .seconds(1))
+                    requestTrackingAndInitAds()
                 }
                 .onChange(of: scenePhase) { _, phase in
                     guard phase == .active else { return }
@@ -48,5 +47,18 @@ struct SecretMBTICounselorApp: App {
                 }
         }
         .modelContainer(sharedModelContainer)
+    }
+
+    private func requestTrackingAndInitAds() {
+        let status = ATTrackingManager.trackingAuthorizationStatus
+        print("[ATT] 현재 상태: \(status.rawValue)") // 0=notDetermined 1=restricted 2=denied 3=authorized
+        guard status == .notDetermined else {
+            MobileAds.shared.start(completionHandler: nil)
+            return
+        }
+        ATTrackingManager.requestTrackingAuthorization { result in
+            print("[ATT] 사용자 선택 결과: \(result.rawValue)")
+            MobileAds.shared.start(completionHandler: nil)
+        }
     }
 }
