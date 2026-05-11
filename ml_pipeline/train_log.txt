@@ -1,0 +1,107 @@
+/Users/wooseob/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+디바이스: MPS (Apple Silicon)
+
+모델 로드 중: klue/bert-base
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at klue/bert-base and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+train 49000 / val 9800 샘플
+  Epoch 1 step 50/1532 loss=1.9548
+  Epoch 1 step 100/1532 loss=1.8852
+  Epoch 1 step 150/1532 loss=1.7931
+  Epoch 1 step 200/1532 loss=1.6979
+  Epoch 1 step 250/1532 loss=1.6265
+  Epoch 1 step 300/1532 loss=1.5620
+  Epoch 1 step 350/1532 loss=1.5175
+  Epoch 1 step 400/1532 loss=1.4798
+  Epoch 1 step 450/1532 loss=1.4473
+  Epoch 1 step 500/1532 loss=1.4211
+  Epoch 1 step 550/1532 loss=1.3971
+  Epoch 1 step 600/1532 loss=1.3751
+  Epoch 1 step 650/1532 loss=1.3569
+  Epoch 1 step 700/1532 loss=1.3396
+  Epoch 1 step 750/1532 loss=1.3225
+  Epoch 1 step 800/1532 loss=1.3103
+  Epoch 1 step 850/1532 loss=1.2982
+  Epoch 1 step 900/1532 loss=1.2870
+  Epoch 1 step 950/1532 loss=1.2770
+  Epoch 1 step 1000/1532 loss=1.2688
+  Epoch 1 step 1050/1532 loss=1.2595
+  Epoch 1 step 1100/1532 loss=1.2514
+  Epoch 1 step 1150/1532 loss=1.2431
+  Epoch 1 step 1200/1532 loss=1.2345
+  Epoch 1 step 1250/1532 loss=1.2278
+  Epoch 1 step 1300/1532 loss=1.2219
+  Epoch 1 step 1350/1532 loss=1.2155
+  Epoch 1 step 1400/1532 loss=1.2101
+  Epoch 1 step 1450/1532 loss=1.2041
+  Epoch 1 step 1500/1532 loss=1.1996
+Epoch 1 — loss=1.1963, val_acc=0.5594
+  ✓ 모델 저장 (best val_acc=0.5594)
+  Epoch 2 step 50/1532 loss=0.9991
+  Epoch 2 step 100/1532 loss=0.9823
+  Epoch 2 step 150/1532 loss=0.9772
+  Epoch 2 step 200/1532 loss=0.9805
+  Epoch 2 step 250/1532 loss=0.9750
+  Epoch 2 step 300/1532 loss=0.9732
+  Epoch 2 step 350/1532 loss=0.9757
+  Epoch 2 step 400/1532 loss=0.9774
+  Epoch 2 step 450/1532 loss=0.9777
+  Epoch 2 step 500/1532 loss=0.9757
+  Epoch 2 step 550/1532 loss=0.9782
+  Epoch 2 step 600/1532 loss=0.9783
+  Epoch 2 step 650/1532 loss=0.9801
+  Epoch 2 step 700/1532 loss=0.9785
+  Epoch 2 step 750/1532 loss=0.9783
+  Epoch 2 step 800/1532 loss=0.9780
+  Epoch 2 step 850/1532 loss=0.9774
+  Epoch 2 step 900/1532 loss=0.9776
+  Epoch 2 step 950/1532 loss=0.9756
+  Epoch 2 step 1000/1532 loss=0.9758
+  Epoch 2 step 1050/1532 loss=0.9751
+  Epoch 2 step 1100/1532 loss=0.9734
+  Epoch 2 step 1150/1532 loss=0.9736
+  Epoch 2 step 1200/1532 loss=0.9735
+  Epoch 2 step 1250/1532 loss=0.9734
+  Epoch 2 step 1300/1532 loss=0.9728
+  Epoch 2 step 1350/1532 loss=0.9706
+  Epoch 2 step 1400/1532 loss=0.9703
+  Epoch 2 step 1450/1532 loss=0.9700
+  Epoch 2 step 1500/1532 loss=0.9699
+Epoch 2 — loss=0.9693, val_acc=0.5732
+  ✓ 모델 저장 (best val_acc=0.5732)
+  Epoch 3 step 50/1532 loss=0.8644
+  Epoch 3 step 100/1532 loss=0.8640
+  Epoch 3 step 150/1532 loss=0.8609
+  Epoch 3 step 200/1532 loss=0.8606
+  Epoch 3 step 250/1532 loss=0.8581
+  Epoch 3 step 300/1532 loss=0.8558
+  Epoch 3 step 350/1532 loss=0.8579
+  Epoch 3 step 400/1532 loss=0.8593
+  Epoch 3 step 450/1532 loss=0.8556
+  Epoch 3 step 500/1532 loss=0.8565
+  Epoch 3 step 550/1532 loss=0.8558
+  Epoch 3 step 600/1532 loss=0.8558
+  Epoch 3 step 650/1532 loss=0.8569
+  Epoch 3 step 700/1532 loss=0.8568
+  Epoch 3 step 750/1532 loss=0.8580
+  Epoch 3 step 800/1532 loss=0.8589
+  Epoch 3 step 850/1532 loss=0.8595
+  Epoch 3 step 900/1532 loss=0.8607
+  Epoch 3 step 950/1532 loss=0.8606
+  Epoch 3 step 1000/1532 loss=0.8601
+  Epoch 3 step 1050/1532 loss=0.8595
+  Epoch 3 step 1100/1532 loss=0.8578
+  Epoch 3 step 1150/1532 loss=0.8574
+  Epoch 3 step 1200/1532 loss=0.8574
+  Epoch 3 step 1250/1532 loss=0.8574
+  Epoch 3 step 1300/1532 loss=0.8571
+  Epoch 3 step 1350/1532 loss=0.8558
+  Epoch 3 step 1400/1532 loss=0.8550
+  Epoch 3 step 1450/1532 loss=0.8549
+  Epoch 3 step 1500/1532 loss=0.8537
+Epoch 3 — loss=0.8533, val_acc=0.5753
+  ✓ 모델 저장 (best val_acc=0.5753)
+
+학습 완료. Best val_acc: 0.5753
+→ trained_model/ 에 모델 저장됨

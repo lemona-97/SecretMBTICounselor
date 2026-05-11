@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-struct NotionTerm: Equatable, Hashable {
+struct NotionTerm: Codable, Equatable, Hashable {
     let abbreviation: String?   // 줄임말 (optional)
     let original: String        // 원어
     let description: String?    // 설명 (optional)
@@ -43,23 +43,34 @@ final class NotionService {
     private let databaseID = "345670b83b1a8031825be2da9fceb8e3"
     private let notionVersion = "2022-06-28"
     private let lastFetchKey = "notionLastFetchDate"  // SettingsView @AppStorage key와 일치
+    private let cachedTermsKey = "notionCachedTerms"
 
     private init() {}
 
-    /// 하루 1회만 실제 API 호출, 이후엔 캐시된 데이터 반환
+    /// 앱 시작 시 하루 1회만 실제 API 호출, 결과는 캐시에 저장한다.
     func fetchTermsIfNeeded() async throws -> [NotionTerm] {
         let now = Date()
         let ts = UserDefaults.standard.double(forKey: lastFetchKey)
         let lastFetch = ts > 0 ? Date(timeIntervalSince1970: ts) : nil
 
         if let last = lastFetch, Calendar.current.isDate(last, inSameDayAs: now) {
-            // 오늘 이미 호출했으면 스킵 → 빈 배열 반환 (앱 State에 기존 값 유지)
-            return []
+            return cachedTerms()
         }
 
         let terms = try await fetchTerms()
+        saveCachedTerms(terms)
         UserDefaults.standard.set(now.timeIntervalSince1970, forKey: lastFetchKey)
         return terms
+    }
+
+    func cachedTerms() -> [NotionTerm] {
+        guard let data = UserDefaults.standard.data(forKey: cachedTermsKey) else { return [] }
+        return (try? JSONDecoder().decode([NotionTerm].self, from: data)) ?? []
+    }
+
+    private func saveCachedTerms(_ terms: [NotionTerm]) {
+        guard let data = try? JSONEncoder().encode(terms) else { return }
+        UserDefaults.standard.set(data, forKey: cachedTermsKey)
     }
 
     func fetchTerms() async throws -> [NotionTerm] {

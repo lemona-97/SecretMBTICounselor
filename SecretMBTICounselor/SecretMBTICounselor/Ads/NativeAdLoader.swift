@@ -17,9 +17,11 @@ final class NativeAdLoader: NSObject, ObservableObject {
     @Published var loadFailed: Bool = false
 
     private var adLoader: AdLoader?
+    private var didRequestAd = false
 
     func load(adUnitID: String) {
-        guard !isLoading else { return }
+        guard !didRequestAd, !isLoading, nativeAd == nil else { return }
+        didRequestAd = true
         isLoading = true
         loadFailed = false
 
@@ -29,6 +31,7 @@ final class NativeAdLoader: NSObject, ObservableObject {
               let rootVC = windowScene.windows.first?.rootViewController
         else {
             isLoading = false
+            loadFailed = true
             return
         }
 
@@ -50,6 +53,7 @@ extension NativeAdLoader: NativeAdLoaderDelegate {
         Task { @MainActor in
             self.nativeAd = nativeAd
             self.isLoading = false
+            self.adLoader = nil
             print("[AdMob] Native 광고 로드 성공")
         }
     }
@@ -58,6 +62,7 @@ extension NativeAdLoader: NativeAdLoaderDelegate {
         Task { @MainActor in
             self.isLoading = false
             self.loadFailed = true
+            self.adLoader = nil
             print("[AdMob] Native 광고 로드 실패: \(error.localizedDescription)")
         }
     }

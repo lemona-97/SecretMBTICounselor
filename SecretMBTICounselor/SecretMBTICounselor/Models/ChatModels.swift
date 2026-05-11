@@ -13,6 +13,7 @@ final class ChatSession {
     var title: String
     var createdAt: Date
     var updatedAt: Date
+    var previewText: String = ""
     @Relationship(deleteRule: .cascade, inverse: \ChatMessage.session)
     var messages: [ChatMessage] = []
 
@@ -27,7 +28,7 @@ final class ChatSession {
     var mbti: MBTIType { MBTIType(rawValue: mbtiRaw) ?? .infp }
 
     var preview: String {
-        messages.sorted { $0.createdAt < $1.createdAt }.last?.content ?? "아직 대화 내용이 없어요"
+        previewText.isEmpty ? "아직 대화 내용이 없어요" : previewText
     }
 }
 

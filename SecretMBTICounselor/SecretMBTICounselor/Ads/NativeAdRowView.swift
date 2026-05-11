@@ -170,8 +170,6 @@ private struct NativeAdUIView: UIViewRepresentable {
 // MARK: - Skeleton
 
 private struct NativeAdSkeletonView: View {
-    @State private var opacity: Double = 0.4
-
     var body: some View {
         HStack(spacing: 10) {
             RoundedRectangle(cornerRadius: 8)
@@ -192,11 +190,6 @@ private struct NativeAdSkeletonView: View {
             RoundedRectangle(cornerRadius: AppTheme.cornerMedium, style: .continuous)
                 .fill(AppTheme.surface)
         )
-        .opacity(opacity)
-        .onAppear {
-            withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
-                opacity = 1.0
-            }
-        }
+        .opacity(0.65)
     }
 }

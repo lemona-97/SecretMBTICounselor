@@ -13,7 +13,8 @@ struct ChatListView: View {
     @Environment(\.notionTerms) private var notionTerms
     @Query private var sessions: [ChatSession]
     @State private var viewModel: ChatListViewModel?
-    @State private var pushedSession: ChatSession?
+    @State private var draftSession: ChatSession?
+    @State private var pushedSessionID: UUID?
 
     init(mbti: MBTIType) {
         self.mbti = mbti
@@ -30,8 +31,7 @@ struct ChatListView: View {
                     ProfileHeaderView(mbti: mbti)
 
                     Button {
-                        guard let vm = viewModel else { return }
-                        pushedSession = vm.createSession()
+                        draftSession = viewModel?.createSession()
                     } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "plus.circle.fill")
@@ -62,7 +62,7 @@ struct ChatListView: View {
 
                     LazyVStack(spacing: 10) {
                         ForEach(sessions) { session in
-                            Button { pushedSession = session } label: {
+                            Button { pushedSessionID = session.id } label: {
                                 SessionRowView(session: session)
                             }
                             .buttonStyle(.plain)
@@ -98,7 +98,16 @@ struct ChatListView: View {
                 viewModel = ChatListViewModel(mbti: mbti, modelContext: modelContext)
             }
         }
-        .navigationDestination(item: $pushedSession) { session in
+        .navigationDestination(item: $pushedSessionID) { id in
+            if let session = sessions.first(where: { $0.id == id }) {
+                ChatView(session: session)
+            } else {
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(AppTheme.background)
+            }
+        }
+        .navigationDestination(item: $draftSession) { session in
             ChatView(session: session)
         }
         .alert("대화 이름 변경", isPresented: Binding(

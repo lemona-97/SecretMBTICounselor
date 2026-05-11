@@ -14,7 +14,6 @@ struct ChatView: View {
     @AppStorage("defaultInteractionMode") private var defaultModeRaw: String = InteractionMode.chat.rawValue
     @AppStorage("autoPlayTTS") private var autoPlayTTS: Bool = true
 
-    @Query private var knownTerms: [UserTerm]
     @State private var viewModel: ChatViewModel?
 
     var body: some View {
@@ -31,7 +30,12 @@ struct ChatView: View {
                                         .id(msg.id)
                                 }
                                 if vm.isResponding, vm.sortedMessages.last?.role != .assistant {
-                                    TypingIndicatorView(mbti: vm.mbti)
+                                    TypingIndicatorView(
+                                        mbti: vm.mbti,
+                                        stageLabel: vm.pipelineStageLabel.isEmpty
+                                            ? "답변 생성 중"
+                                            : vm.pipelineStageLabel
+                                    )
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -41,7 +45,7 @@ struct ChatView: View {
                             guard let id else { return }
                             withAnimation { proxy.scrollTo(id, anchor: .bottom) }
                         }
-                        .onChange(of: vm.sortedMessages.last?.content) { _, _ in
+                        .onChange(of: vm.lastResponseContent) { _, _ in
                             if let id = vm.sortedMessages.last?.id {
                                 proxy.scrollTo(id, anchor: .bottom)
                             }
@@ -88,6 +92,9 @@ struct ChatView: View {
         .onAppear {
             if viewModel == nil {
                 let mode = InteractionMode(rawValue: defaultModeRaw) ?? .chat
+                let descriptor = FetchDescriptor<UserTerm>()
+                let knownTerms = (try? modelContext.fetch(descriptor)) ?? []
+                let notionTerms = NotionService.shared.cachedTerms()
                 viewModel = ChatViewModel(session: session, modelContext: modelContext, knownTerms: knownTerms, notionTerms: notionTerms, defaultMode: mode)
                 if mode == .voice {
                     Task { await viewModel?.speech.requestPermissions() }

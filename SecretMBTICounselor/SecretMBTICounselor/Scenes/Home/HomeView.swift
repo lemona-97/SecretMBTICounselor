@@ -6,8 +6,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(\.notionTerms) private var notionTerms
-
     @AppStorage("hasShownDisclaimer") private var hasShownDisclaimer = false
     @AppStorage("hasShownUnsupportedAlert") private var hasShownUnsupportedAlert = false
     @State private var showDisclaimer = false

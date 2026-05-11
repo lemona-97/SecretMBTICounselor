@@ -9,6 +9,8 @@ struct MessageBubbleView: View {
     let message: ChatMessage
     let mbti: MBTIType
 
+    @State private var attributedContent: AttributedString?
+
     private var isUser: Bool { message.role == .user }
 
     var body: some View {
@@ -23,7 +25,7 @@ struct MessageBubbleView: View {
             }
 
             VStack(alignment: .leading, spacing: 0) {
-                if let attributed = try? AttributedString(markdown: message.content) {
+                if let attributed = attributedContent {
                     Text(attributed)
                         .font(.system(size: 15, design: .rounded))
                         .foregroundStyle(AppTheme.textPrimary)
@@ -32,6 +34,9 @@ struct MessageBubbleView: View {
                         .font(.system(size: 15, design: .rounded))
                         .foregroundStyle(AppTheme.textPrimary)
                 }
+            }
+            .task(id: message.content) {
+                attributedContent = try? AttributedString(markdown: message.content)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 14)

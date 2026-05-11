@@ -23,9 +23,7 @@ final class ChatListViewModel {
 
     /// 새 대화 세션을 만들고 반환.
     func createSession() -> ChatSession {
-        let s = ChatSession(mbti: mbti)
-        modelContext.insert(s)
-        return s
+        ChatSession(mbti: mbti)
     }
 
     // MARK: - Rename
