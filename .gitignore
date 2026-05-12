@@ -60,3 +60,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# ML model large files (exceed GitHub 100MB limit)
+*.safetensors
+*.bin
+ml_pipeline/trained_model/
+ml_pipeline/processed/

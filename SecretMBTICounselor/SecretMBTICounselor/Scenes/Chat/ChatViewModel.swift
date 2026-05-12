@@ -143,7 +143,7 @@ final class ChatViewModel {
                 }
             } catch {
                 Self.log("pipeline failed error=\(String(describing: error))")
-                let fallback = Self.fallbackMessage(for: self.mbti)
+                let fallback = Self.fallbackMessage()
                 replyMsg.content = fallback
                 if !shownInUI {
                     self.appendToSorted(replyMsg)
@@ -209,25 +209,8 @@ final class ChatViewModel {
     // MARK: - Fallback
 
     /// 모델 오류(unsafe 감지 등) 시 상담사 말투에 맞는 자연스러운 대체 메시지
-    private static func fallbackMessage(for mbti: MBTIType) -> String {
-        switch mbti {
-        case .intj: return "음, 그 부분은 제가 답하기 어렵네요.\n다른 이야기를 해볼까요?"
-        case .intp: return "흥미로운 질문이긴 한데, 솔직히 잘 모르겠어요.\n다른 방향으로 생각해볼까요?"
-        case .entj: return "그 부분은 제 영역 밖이에요.\n지금 가장 중요한 게 뭔지 다시 얘기해봐요."
-        case .entp: return "오, 그건 저도 잘 모르겠는데요.\n근데 이렇게 생각해보면 어때요?"
-        case .infj: return "그 부분은 제가 잘 모르겠어요.\n지금 마음은 어떠세요?"
-        case .infp: return "솔직히 그건 잘 모르겠어요.\n괜찮아요, 다른 얘기 해도 돼요."
-        case .enfj: return "그 부분은 제가 답하기 어렵네요.\n지금 가장 마음에 걸리는 건 뭐예요?"
-        case .enfp: return "아 그건 저도 잘 모르겠어요!\n근데 다른 데서 실마리를 찾아볼 수도 있지 않을까요?"
-        case .istj: return "그 부분은 제가 정확히 답하기 어렵네요.\n다른 주제로 넘어가볼게요."
-        case .isfj: return "혹시 다른 이야기를 해도 괜찮을까요?\n그 부분은 제가 잘 모르겠어서요."
-        case .estj: return "그건 제 답변 범위를 벗어났어요.\n다른 걸로 바로 가보죠."
-        case .esfj: return "어머, 그 부분은 제가 잘 모르겠어요.\n다른 얘기 해요, 괜찮아요!"
-        case .istp: return "모르겠어요, 그건.\n다른 걸 얘기해봐요."
-        case .isfp: return "그건 잘 모르겠어요.\n지금 느끼는 감정이 뭔지 얘기해줄래요?"
-        case .estp: return "그건 저도 모르겠는데요.\n일단 다른 얘기 해봐요!"
-        case .esfp: return "앗, 그건 저도 모르겠어요!\n다른 얘기 해요, 더 재밌는 거로!"
-        }
+    private static func fallbackMessage() -> String {
+        return "죄송합니다 잘 이해하지 못했어요"
     }
 
     // MARK: - Lifecycle
